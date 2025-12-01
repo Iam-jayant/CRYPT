@@ -1,0 +1,34 @@
+{
+  "name": "nft-gift-protocol",
+  "version": "1.0.0",
+  "description": "NFT Gift Protocol - Decentralized gifting system with AI-generated NFT art",
+  "type": "module",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "deploy": "hardhat run scripts/deploy.js",
+    "frontend:dev": "cd frontend && npm run dev",
+    "frontend:build": "cd frontend && npm run build"
+  },
+  "keywords": [
+    "nft",
+    "gift",
+    "web3",
+    "ethereum",
+    "polygon"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-ignition": "^3.0.5",
+    "@nomicfoundation/hardhat-toolbox-viem": "^5.0.1",
+    "@types/node": "^24.10.1",
+    "hardhat": "^3.0.16",
+    "typescript": "^5.9.3",
+    "viem": "^2.40.3"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.4.0",
+    "dotenv": "^17.2.3"
+  }
+}

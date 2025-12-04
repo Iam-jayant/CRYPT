@@ -1,167 +1,167 @@
-# NFT Gift Protocol 🎁
+# NFT Gift Protocol
 
-A decentralized gifting system that replaces traditional gift cards with customizable, AI-generated NFT art that holds transferable tokens.
+## Overview
 
-## ⚠️ Important: Testnet Only
+Digital gifting is often impersonal. Sending a crypto transaction feels like a bank transfer, and traditional gift cards are restrictive and centralized.
 
-**This project runs exclusively on Polygon Amoy testnet. No real tokens or value are involved.**
+This project solves that problem by combining AI-generated art with cryptocurrency. It allows users to create unique, personalized NFTs that act as **"wrapping paper" for value**. You can embed ERC-20 tokens (like USDC) inside these NFTs. The recipient receives a digital collectible that they can choose to keep or **liquidate** to access the funds inside.
+
+This project was built to explore the intersection of **art and finance**, ensuring that digital gifts have both emotional and monetary value.
+
+---
+
+## How It Works
+
+The core of this protocol is the **Vault Pattern**.
+
+1. **Creation**
+   When you create a gift card, you provide a text prompt (e.g., *"A cyberpunk birthday cake"*). The system generates an image using AI and uploads it to IPFS.
+
+2. **Minting**
+   The smart contract mints an NFT to the recipient. At the same time, it transfers your specified amount of tokens (like USDC) into the contract's vault.
+
+3. **Storage**
+   The contract maps those tokens specifically to that NFT's ID.
+
+4. **Liquidation**
+   Only the current owner of the NFT can call the liquidation function. This burns the "gift" status (or the NFT itself, depending on configuration) and releases the funds to the owner's wallet.
+
+---
 
 ## Features
 
-- 🎨 AI-generated gift card artwork using Stable Diffusion
-- 💎 ERC-721 NFTs with embedded ERC-20 token vaults
-- 📧 Email-based gift card delivery and claiming
-- 🛒 Marketplace for artist designs and secondary NFT sales
-- 💰 Liquidation mechanism to extract token value
-- 🔗 Decentralized storage using IPFS
+* **AI Art Generation**: Generates unique artwork on the fly using Stable Diffusion.
+* **Embedded Value**: NFTs hold real ERC-20 tokens securely.
+* **Decentralized Storage**: All metadata and images are stored on IPFS for permanence.
+* **Marketplace**: A secondary market where users can list and trade their gift cards.
+* **Testnet Ready**: Fully deployed and tested on the Polygon Amoy network.
 
-## Tech Stack
+---
 
-### Smart Contracts
-- Solidity 0.8.28
-- Hardhat development environment
-- OpenZeppelin contracts
-- Viem for Web3 interactions
+## Technology Stack
 
-### Frontend
-- React + TypeScript
-- Vite build tool
-- RainbowKit for wallet integration
-- Wagmi for Web3 hooks
-- TanStack Query for state management
+* **Frontend**: React, TypeScript, Vite, Tailwind CSS
+* **Smart Contracts**: Solidity, Hardhat
+* **Web3 Integration**: RainbowKit, Wagmi, Viem
+* **Storage**: IPFS (via web3.storage)
+* **AI**: Hugging Face Inference API
 
-### Infrastructure
-- Polygon Amoy testnet (Chain ID: 80002)
-- IPFS via web3.storage
-- Hugging Face API for AI art generation
-- EmailJS for email delivery
-
-## Project Structure
-
-```
-.
-├── contracts/          # Solidity smart contracts
-├── test/              # Smart contract tests
-├── scripts/           # Deployment scripts
-├── frontend/          # React frontend application
-│   ├── src/
-│   │   ├── config/    # Web3 and API configuration
-│   │   └── ...
-│   └── ...
-├── .env.example       # Environment variables template
-└── hardhat.config.js  # Hardhat configuration
-```
+---
 
 ## Getting Started
 
-### Prerequisites
+Follow these steps to run the project locally.
 
-- Node.js v18+ and npm
-- MetaMask or another Web3 wallet
-- Amoy testnet MATIC (get from [faucet](https://faucet.polygon.technology/))
+---
 
-### Installation
+## Prerequisites
 
-1. Clone the repository:
-```bash
-git clone <repository-url>
-cd CRYPT
-```
+* Node.js (v18 or higher)
+* A Web3 wallet (like MetaMask)
+* Test MATIC for the Polygon Amoy network
+
+---
+
+## Installation
+
+1. Clone the repository.
 
 2. Install root dependencies:
-```bash
-npm install
-```
 
-3. Install frontend dependencies:
-```bash
-cd frontend
-npm install
-cd ..
-```
+   ```bash
+   npm install
+   ```
 
-4. Set up environment variables:
-```bash
-# Copy the example files
-cp .env.example .env
-cp frontend/.env.example frontend/.env
+3. Navigate to the frontend directory and install dependencies:
 
-# Edit .env files with your configuration
-```
+   ```bash
+   cd frontend
+   npm install
+   ```
 
-### Configuration
+---
 
-#### Root `.env` file:
-- `AMOY_RPC_URL`: Amoy testnet RPC endpoint
-- `PRIVATE_KEY`: Your wallet private key (for deployment)
-- `POLYGONSCAN_API_KEY`: For contract verification
-- `WEB3_STORAGE_API_KEY`: Get from [web3.storage](https://web3.storage)
-- `HUGGINGFACE_API_KEY`: Get from [Hugging Face](https://huggingface.co)
+## Configuration
 
-#### Frontend `.env` file:
-- `VITE_WALLETCONNECT_PROJECT_ID`: Get from [WalletConnect Cloud](https://cloud.walletconnect.com)
-- Contract addresses (filled after deployment)
-- API keys for IPFS and AI generation
+You need to set up your environment variables.
 
-### Development
+### Backend `.env` (Root Directory)
 
-#### Compile Smart Contracts
+Create a `.env` file in the root directory. You can copy `.env.example` if it exists. You will need:
+
+* `AMOY_RPC_URL` – RPC endpoint for Polygon Amoy
+* `PRIVATE_KEY` – Your wallet private key (for deploying contracts)
+
+### Frontend `.env`
+
+Create a `.env` file in the `frontend` directory. You will need:
+
+* `VITE_WALLETCONNECT_PROJECT_ID` – From WalletConnect
+* `VITE_HUGGINGFACE_API_KEY` – For AI generation
+* `VITE_WEB3_STORAGE_TOKEN` – For IPFS uploads
+
+---
+
+## Running the Application
+
+### Compile Contracts
+
 ```bash
 npm run compile
 ```
 
-#### Run Tests
-```bash
-npm test
-```
+### Deploy to Testnet
 
-#### Start Frontend Development Server
-```bash
-npm run frontend:dev
-```
-
-The frontend will be available at `http://localhost:5173`
-
-### Deployment
-
-Deploy contracts to Amoy testnet:
 ```bash
 npm run deploy:amoy
 ```
 
-After deployment, update the contract addresses in `frontend/.env`:
-- `VITE_GIFT_CARD_NFT_ADDRESS`
-- `VITE_MARKETPLACE_ADDRESS`
+> **Note:**
+> This script deploys:
+>
+> * Mock USDC/DAI tokens
+> * GiftCardNFT contract
+> * Marketplace contract
+>
+> All deployed addresses will be logged to the console.
 
-## Network Information
+---
 
-### Polygon Amoy Testnet
-- **Chain ID**: 80002
-- **RPC URL**: https://rpc-amoy.polygon.technology/
-- **Block Explorer**: https://amoy.polygonscan.com
-- **Faucet**: https://faucet.polygon.technology/
+### Update Frontend Config
 
-## Usage
+Copy the deployed contract addresses into your `frontend/.env` file.
 
-1. **Connect Wallet**: Use the connect button to link your MetaMask wallet
-2. **Get Test MATIC**: Visit the Amoy faucet to get test tokens
-3. **Create Gift Card**: Generate AI art and mint an NFT with embedded tokens
-4. **Send Gift**: Share via email or transfer directly
-5. **Trade**: List on marketplace or purchase existing gift cards
-6. **Liquidate**: Extract token value from owned gift cards
+---
 
-## Development Roadmap
+### Start Frontend
 
-See `.kiro/specs/nft-gift-protocol/tasks.md` for the complete implementation plan.
+```bash
+npm run frontend:dev
+```
+
+The application will run at:
+
+```
+http://localhost:5173
+```
+
+---
+
+## Architecture
+
+The project consists of three core smart contracts:
+
+* **GiftCardNFT.sol**
+  Handles NFT minting and the token vault logic.
+
+* **Marketplace.sol**
+  Enables listing and purchasing of gift cards and design templates.
+
+* **MockERC20.sol**
+  Used to mint fake USDC and DAI tokens for testing on the testnet.
+
+---
 
 ## License
 
-MIT
-
-## Contributing
-
-This is a testnet-only educational project. Contributions are welcome!
-
-## Support
-
-For issues or questions, please open an issue on GitHub.
+This project is open source and available under the **M
